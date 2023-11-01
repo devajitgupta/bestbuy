@@ -52,7 +52,9 @@ const Productitems = ({ product }) => {
                      <span className="ml-1 text-yellow-500">5</span>
                   </div>
                   <p className="text-gray-500 mb-2">
-                     {product?.description.substring(0, 150)}...
+                     {product && product.description
+                        ? product.description.substring(0, 150)
+                        : ""}
                   </p>
                </div>
             </div>

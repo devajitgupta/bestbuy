@@ -1,10 +1,24 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import StarRatings from "react-star-ratings";
 import BreadCrumbs from "../layouts/BreadCrumbs";
 //import NewReview from "../reviews/NewReview";
 //import Reviews from "../reviews/Reviews";
+import CartContext from "@/context/CartContext";
 
 const ProductDetails = ({ formData }) => {
+   const { addItemToCart } = useContext(CartContext);
+
+   const addItemToCartHandler = () => {
+      addItemToCart({
+         formData: formData._id,
+         name: formData.name,
+         price: formData.price,
+         image: formData.image,
+         stock: formData.stock,
+         seller: formData.seller,
+      });
+   };
    return (
       <>
          <BreadCrumbs />
@@ -76,7 +90,10 @@ const ProductDetails = ({ formData }) => {
                      </p>
 
                      <div className="flex flex-wrap gap-2 mb-5">
-                        <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                        <button
+                           className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+                           onClick={addItemToCartHandler}
+                        >
                            <i className="fa fa-shopping-cart mr-2"></i>
                            Add to cart
                         </button>

@@ -16,11 +16,7 @@ const ListProducts = ({ product }) => {
          .get("http://localhost:3001/products")
          .then((response) => {
             // Check if the response data is an array before setting it in the state
-            if (Array.isArray(response.data)) {
-               setProducts(response.data);
-            } else {
-               console.error("Response data is not an array:", response.data);
-            }
+            setProducts(response.data.products);
          })
          .catch((error) => {
             console.error("Error fetching data:", error);
