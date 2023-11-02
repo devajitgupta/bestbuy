@@ -6,8 +6,32 @@ import CartContext from "@/context/CartContext";
 import Link from "next/link";
 
 const Cart = () => {
-   const { addItemToCart, cart } = useContext(CartContext);
+   const { addItemToCart, cart, deleteItemFromCart } = useContext(CartContext);
+   const increaseQty = (cartItem) => {
+      const newQty = cartItem?.quantity + 1;
+      const item = { ...cartItem, quantity: newQty };
+      if (newQty > Number(cartItem.stock)) return;
+      addItemToCart(item);
+   };
 
+   const decreaseQty = (cartItem) => {
+      const newQty = cartItem?.quantity - 1;
+      const item = { ...cartItem, quantity: newQty };
+
+      if (newQty <= 0) return;
+      addItemToCart(item);
+   };
+
+   const amountWithoutTax = cart?.cartItems?.reduce(
+      (acc, item) => acc + item.quantity * item.price,
+      0
+   );
+
+   const taxAmount = (amountWithoutTax * 0.15).toFixed(2);
+
+   const totalAmount = (Number(amountWithoutTax) + Number(taxAmount)).toFixed(
+      2
+   );
    return (
       <>
          <section className="py-5 sm:py-7 bg-blue-100">

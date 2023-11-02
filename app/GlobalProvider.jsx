@@ -1,3 +1,4 @@
+"use client";
 import { CartProvider } from "../context/CartContext";
 
 export function GlobalProvider({ children }) {
