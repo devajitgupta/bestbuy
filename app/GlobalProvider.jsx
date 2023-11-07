@@ -1,6 +1,19 @@
 "use client";
-import { CartProvider } from "../context/CartContext";
+
+import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
+//import { SessionProvider } from "next-auth/react";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function GlobalProvider({ children }) {
-   return <CartProvider>{children}</CartProvider>;
+   return (
+      <>
+         <ToastContainer position="bottom-right" />
+         <AuthProvider>
+            <CartProvider>{children}</CartProvider>
+         </AuthProvider>
+      </>
+   );
 }

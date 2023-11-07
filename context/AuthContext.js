@@ -1,40 +1,46 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { createContext } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect, createContext } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [error, setError] = useState(null);
 
    const router = useRouter();
-   const registeruser = async ({ name, email, password }) => {
+
+   const registerUser = async ({ name, email, password }) => {
       console.log("register user", name, email, password);
       try {
-         const { data } = axios.post(`http://localhost:3001/auth/signup`, {
-            name,
-            email,
-            password,
-         });
+         const { data } = await axios.post(
+            "http://localhost:3001/auth/signup",
+            {
+               name,
+               email,
+               password,
+            }
+         );
          if (data?.user) {
-            router.push("/");
+            router.push("/login");
          }
       } catch (err) {
          setError(err?.response?.data?.message);
       }
-      const clearError = () => {
-         setError(null);
-      };
    };
+
+   const clearErrors = () => {
+      setError(null);
+   };
+
    return (
       <AuthContext.Provider
-         value={{ user, error, setUser, registeruser, clearErrors }}
+         value={{ user, error, setUser, registerUser, clearErrors }}
       >
          {children}
       </AuthContext.Provider>
    );
 };
+
 export default AuthContext;
